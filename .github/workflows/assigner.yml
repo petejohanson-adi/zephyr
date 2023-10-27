@@ -9,6 +9,7 @@ on:
     - ready_for_review
     branches:
     - main
+    - adi-main*
     - collab-*
     - v*-branch
   issues:
@@ -22,7 +23,7 @@ jobs:
   assignment:
     name: Pull Request/Issue Assignment
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-10
     timeout-minutes: 15
     permissions:
       issues: write        # to add assignees to issues

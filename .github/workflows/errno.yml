@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   check-errno:
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-11
     timeout-minutes: 15
     steps:
       - name: checkout

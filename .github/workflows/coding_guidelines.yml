@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   compliance_job:
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-10
     timeout-minutes: 30
     name: Run coding guidelines checks on patch series (PR)
     steps:
@@ -36,7 +36,7 @@ jobs:
     - name: Install Packages
       run: |
         sudo apt-get update
-        sudo apt-get install coccinelle
+        sudo apt-get install -y coccinelle
 
     - name: Run Coding Guidelines Checks
       continue-on-error: true

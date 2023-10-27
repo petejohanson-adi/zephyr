@@ -16,7 +16,7 @@ concurrency:
 jobs:
   cleanup:
     name: Cleanup
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-10
     timeout-minutes: 10
     if: github.ref == 'refs/heads/main'
     permissions:

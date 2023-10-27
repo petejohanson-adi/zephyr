@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   contribs:
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-10
     timeout-minutes: 15
     permissions:
       pull-requests: write # to create/update pull request comments

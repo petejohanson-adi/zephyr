@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   check_compliance:
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-10
     timeout-minutes: 30
     name: Run compliance checks on patch series (PR)
     steps:

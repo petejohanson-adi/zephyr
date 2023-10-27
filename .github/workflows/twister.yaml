@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - main
+      - adi-main*
       - v*-branch
       - collab-*
   pull_request:
     branches:
       - main
+      - adi-main*
       - v*-branch
       - collab-*
   schedule:
@@ -26,7 +28,7 @@ jobs:
   twister-build-prep:
     if: github.repository_owner == 'zephyrproject-rtos'
     runs-on:
-      group: zephyr-runner-v2-linux-x64-4xlarge
+      group: ses-edi-build-lu-x64-11
     timeout-minutes: 60
     container:
       image: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.29.4.20260912
@@ -152,7 +154,7 @@ jobs:
 
   twister-build:
     runs-on:
-      group: zephyr-runner-v2-linux-x64-4xlarge
+      group: ses-edi-build-lu-x64-11
     needs: twister-build-prep
     if: needs.twister-build-prep.outputs.size != 0
     container:
@@ -313,9 +315,12 @@ jobs:
 
   twister-test-results:
     name: "Publish Unit Tests Results"
+    env:
+      ELASTICSEARCH_KEY: ${{ secrets.ELASTICSEARCH_KEY }}
+      ELASTICSEARCH_SERVER: "https://elasticsearch.zephyrproject.io:443"
     needs:
       - twister-build
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-10
     timeout-minutes: 30
     permissions:
       checks: write # to create the check run entry with Twister test results

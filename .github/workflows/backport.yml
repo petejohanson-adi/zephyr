@@ -6,6 +6,7 @@ on:
       - labeled
     branches:
       - main
+      - adi-main*
 
 permissions:
   contents: read
@@ -13,7 +14,7 @@ permissions:
 jobs:
   backport:
     name: Backport
-    runs-on: ubuntu-24.04
+    runs-on: ses-edi-build-lu-x64-10
     timeout-minutes: 15
     permissions:
       contents: write       # to create/push backport branches

@@ -21,4 +21,4 @@ supported:
   - w1
   - flash
 ram: 128
-flash: 512
+flash: 256

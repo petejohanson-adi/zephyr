@@ -85,7 +85,19 @@ tests:
     integration_platforms:
       - qemu_x86
       - mimxrt1060_evk/mimxrt1062/qspi
-      - pic32cz_ca80_cult
+      - max32655evkit/max32655/m4
+      - max32655fthr/max32655/m4
+      - max32662evkit
+      - max32666evkit/max32666/cpu0
+      - max32666fthr/max32666/cpu0
+      - max32670evkit
+      - max32672evkit
+      - max32672fthr
+      - max32675evkit
+      - max32680evkit/max32680/m4
+      - max32690evkit/max32690/m4
+      - max32690fthr/max32690/m4
+      - max78002evkit/max78002/m4
   drivers.flash.common.intel_pflash_cfi01:
     platform_allow: qemu_x86
     integration_platforms:
@@ -94,6 +106,7 @@ tests:
     filter: CONFIG_FLASH_HAS_DRIVER_ENABLED
     platform_allow:
       - pic32cm_sg00_cpro
+      - pic32cz_ca80_cult
   drivers.flash.common.no_explicit_erase:
     platform_allow:
       - nrf54l15dk/nrf54l05/cpuapp

@@ -43,12 +43,21 @@ jobs:
         done
 
     - name: Get Access Token
-      id: get_access_token
-      uses: adi-innersource/generate-github-app-token-action@v1
-      env:
-        GH_APP_PEM: ${{ secrets.GH_APP_PEM }}
-        GH_APP_ID: ${{ vars.GH_APP_ID }}
-        GH_APP_INSTALLATION_ID: ${{ vars.GH_APP_INSTALLATION_ID }}
+      id: generate-github-app-token
+      uses: adi-innersource/shared-actions/generate-github-token@v1
+      with:
+        app-id: ${{ secrets.TOKEN_GENERATOR_APP_ID }}
+        private-key: ${{ secrets.TOKEN_GENERATOR_APP_PRIVATE_KEY }}
+        organization: ${{ github.repository_owner }}
+        repositories: |
+          zephyr
+          zephyr-runner-configurations
+          hal_adi
+          packetcraft-adi
+          trusted-firmware-m
+          trusted-firmware-a
+          tf-m-tests
+          psa-arch-tests
 
     - name: Checkout the code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -86,11 +95,14 @@ jobs:
         pip install -r scripts/requirements-actions.txt --require-hashes
 
     - name: west setup
+      env:
+        BASE_REF: ${{ github.base_ref }}
+        ACCESS_TOKEN: ${{ steps.generate-github-app-token.outputs.access-token }}
       run: |
         git config --global http.version HTTP/1.1
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
-        git config --global url."https://${generatedAccessToken}:${generatedAccessToken}@github.com/".insteadOf "https://github.com/"
+        git config --global url."https://${ACCESS_TOKEN}:${ACCESS_TOKEN}@github.com/".insteadOf "https://github.com/"
         git remote -v
         # Ensure there's no merge commits in the PR
         [[ "$(git rev-list --merges --count origin/${BASE_REF}..)" == "0" ]] || \
@@ -105,7 +117,7 @@ jobs:
         west config manifest.group-filter -- +ci,-optional
         west update -o=--depth=1 -n 2>&1 1> west.update.log || west update -o=--depth=1 -n 2>&1 1> west.update2.log
         # Remove token that used by this session
-        git config --global --unset-all url."https://${generatedAccessToken}:${generatedAccessToken}@github.com/".insteadOf
+        git config --global --unset-all url."https://${ACCESS_TOKEN}:${ACCESS_TOKEN}@github.com/".insteadOf
 
     - name: Setup Node.js
       uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0

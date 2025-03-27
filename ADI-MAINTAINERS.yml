@@ -1,0 +1,1178 @@
+# This file contains information on who maintains what. It is parsed by
+# get_maintainer.py.
+#
+# File format
+# ###########
+#
+# "Area title" (the quotes are only needed for titles with special characters,
+#  like colons):
+#     status:
+#         One of the following:
+#
+#         * maintained:
+#             The area has a Maintainer (approved by the TSC) who
+#             looks after the area.
+#
+#         * odd fixes:
+#            The area gets odd fixes and may have collaborators.
+#
+#         * obsolete:
+#             Old code. Something being marked obsolete generally means it has
+#             been replaced by something better that you should be using
+#             instead.
+#
+#     maintainers:
+#         List of GitHub handles for the people who maintain the area. Usually,
+#         there's only one maintainer.
+#
+#     collaborators (not to be confused with the GitHub collaborator role):
+#         Very involved contributors, who know the area well and contribute
+#         significantly to it.
+#
+#     labels:
+#         List of GitHub labels to add to pull requests that modify the area.
+#
+#     files:
+#         List of paths and/or glob patterns giving the files in the area,
+#         relative to the root directory.
+#
+#         If a path or glob pattern ends in a '/', it matches all files within
+#         the given directory or directories. Otherwise, an exact match is
+#         required.
+#
+#         Paths to directories should always have a trailing '/'.
+#
+#     files-regex:
+#         List of regular expressions applied to paths to determine if they
+#         belong to the area. The regular expression may match anywhere within
+#         the path, but can be anchored with ^ and $ as usual.
+#
+#         Can be combined with a 'files' key.
+#
+#         Note: Prefer plain 'files' patterns where possible. get_maintainer.py
+#         will check that they match some file, but won't check regexes
+#         (because it might be slow).
+#
+#     files-exclude:
+#         Like 'files', but any matching files will be excluded from the area.
+#
+#     files-regex-exclude:
+#         Like 'files-regex', but any matching files will be excluded from the
+#         area.
+#
+#     description: >-
+#         Plain-English description. Describe what the system is about, from an
+#         outsider's perspective.
+#
+#
+# All areas must have a 'files' and/or 'files-regex' key. The other keys are
+# optional.
+#
+# It is very advisable to have a `status` key in all entries. Exceptions to
+# this would be sub-areas which add extra fields (for ex. more `collaborators`
+# who work only in that sub-area) to other areas.
+#
+#
+# Workflow
+# ########
+#
+# Ideally, any file in the tree will be covered by some area.
+#
+# When a GitHub pull request is sent, this happens:
+#
+#     * A user mentioned in 'maintainers' is added as Assignee to
+#       the pull request
+#
+#     * Users mentioned in 'maintainers' and 'collaborators' are added as
+#       reviewers to the pull request
+#
+#     * The labels listed in 'labels' are automatically added to the pull
+#       request
+#
+#     * The bot posts this comment:
+#
+#         This PR affects the following areas:
+#         <area name>:
+#           Status: ...
+#           Maintainers: <list of maintainers>
+#           Collaborators: <list of sub-maintainers>
+#
+#         <area name>:
+#           ...
+#
+#
+# Changes to MAINTAINERS.yml need to be approved as follows:
+#
+#     * Changing the 'maintainers' for an area needs approval from the
+#       Technical Steering Committee
+#
+#     * Changing the 'collaborators' lines requires the maintainer and
+#       collaborators of that area to agree (or vote on it)
+
+# Areas are sorted by name
+
+ARM arch:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  files:
+    - arch/arm/
+    - arch/arm/core/offsets/
+    - include/zephyr/arch/arm/
+    - tests/arch/arm/
+    - doc/hardware/arch/arm_cortex_m.rst
+    - boards/qemu/cortex_m0/
+  labels:
+    - "area: ARM"
+  tests:
+    - arch.arm
+
+Bluetooth HCI:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+    - Rob-Cornall_adi
+  collaborators:
+    - Kevin-Gillespie_adi
+    - Sean-Kyer_adi
+    - Abigail-Wolf_adi
+  files:
+    - include/zephyr/drivers/bluetooth/
+    - include/zephyr/drivers/bluetooth.h
+    - drivers/bluetooth/
+    - samples/bluetooth/hci_*/
+    - tests/bsim/bluetooth/hci_uart/
+    - dts/bindings/bluetooth/
+  labels:
+    - "area: Bluetooth HCI"
+    - "area: Bluetooth"
+  tests:
+    - bluetooth
+
+Bluetooth controller:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  collaborators:
+    - Kevin-Gillespie_adi
+  files:
+    - doc/connectivity/bluetooth/bluetooth-ctlr-arch.rst
+    - doc/connectivity/bluetooth/img/ctlr*
+    - doc/connectivity/bluetooth/api/controller.rst
+    - include/zephyr/bluetooth/controller.h
+    - subsys/bluetooth/common/
+    - subsys/bluetooth/controller/
+    - subsys/bluetooth/crypto/
+    - tests/bluetooth/controller/
+    - tests/bsim/bluetooth/ll/
+  labels:
+    - "area: Bluetooth Controller"
+    - "area: Bluetooth"
+  tests:
+    - bluetooth.controller
+
+Bluetooth Host:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  collaborators:
+    - Rob-Cornall_adi
+    - Sean-Kyer_adi
+  files:
+    - doc/connectivity/bluetooth/
+    - include/zephyr/bluetooth/
+    - samples/bluetooth/
+    - subsys/bluetooth/common/
+    - subsys/bluetooth/crypto/
+    - subsys/bluetooth/host/
+    - subsys/bluetooth/lib/
+    - subsys/bluetooth/services/
+    - subsys/bluetooth/CMakeLists.txt
+    - subsys/bluetooth/Kconfig*
+    - tests/bluetooth/
+    - tests/bsim/bluetooth/
+  files-exclude:
+    - subsys/bluetooth/host/classic/
+    - include/zephyr/bluetooth/audio/
+    - include/zephyr/bluetooth/classic/
+    - include/zephyr/bluetooth/mesh/
+    - include/zephyr/bluetooth/iso.h
+    - include/zephyr/bluetooth/controller.h
+    - include/zephyr/bluetooth/mesh.h
+    - doc/connectivity/bluetooth/bluetooth-ctlr-arch.rst
+    - doc/connectivity/bluetooth/autopts/
+    - doc/connectivity/bluetooth/img/ctlr*
+    - doc/connectivity/bluetooth/api/audio/
+    - doc/connectivity/bluetooth/api/mesh/
+    - doc/connectivity/bluetooth/api/controller.rst
+    - doc/connectivity/bluetooth/shell/classic/a2dp.rst
+    - doc/connectivity/bluetooth/shell/host/iso.rst
+    - doc/connectivity/bluetooth/shell/audio/
+    - samples/bluetooth/bap*/
+    - samples/bluetooth/cap*/
+    - samples/bluetooth/ccp*/
+    - samples/bluetooth/hap*/
+    - samples/bluetooth/hci_*/
+    - samples/bluetooth/pbp*/
+    - samples/bluetooth/tmap*/
+    - samples/bluetooth/iso_*/
+    - samples/bluetooth/mesh*/
+    - subsys/bluetooth/host/iso.c
+    - subsys/bluetooth/host/iso_internal.h
+    - subsys/bluetooth/host/shell/iso.c
+    - tests/bluetooth/audio/
+    - tests/bluetooth/controller/
+    - tests/bluetooth/mesh*/
+    - tests/bluetooth/qualification/
+    - tests/bluetooth/shell/audio.conf
+    - tests/bluetooth/shell/mesh.conf
+    - tests/bluetooth/tester/
+    - tests/bsim/bluetooth/audio/
+    - tests/bsim/bluetooth/audio_samples/
+    - tests/bsim/bluetooth/hci_uart/
+    - tests/bsim/bluetooth/ll/
+    - tests/bsim/bluetooth/mesh/
+  labels:
+    - "area: Bluetooth Host"
+    - "area: Bluetooth"
+
+Coding Guidelines:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - .checkpatch.conf
+    - .clang-format
+    - .editorconfig
+    - .gitlint
+    - .yamllint
+    - doc/contribute/guidelines.rst
+    - doc/contribute/coding_guidelines/
+    - scripts/checkpatch.pl
+    - scripts/checkpatch/
+    - scripts/ci/check_compliance.py
+    - scripts/ci/guideline_check.py
+    - scripts/ci/pylintrc
+    - scripts/coccicheck
+    - scripts/coccinelle/
+    - scripts/gitlint/
+    - scripts/pylint/
+    - scripts/spelling.txt
+  labels:
+    - "area: Coding Guidelines"
+
+Device Driver Model:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - include/zephyr/device.h
+    - kernel/device.c
+    - include/zephyr/init.h
+    - tests/kernel/device/
+    - doc/kernel/drivers/
+    - tests/misc/check_init_priorities/
+  labels:
+    - "area: Device Model"
+  tests:
+    - kernel.device
+    - init
+
+"Drivers: ADC":
+  status: maintained
+  maintainers:
+    - Hasanfurkan-Akkiz_adi
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - drivers/adc/
+    - include/zephyr/drivers/adc.h
+    - tests/drivers/adc/
+    - samples/drivers/adc/
+    - include/zephyr/drivers/adc/
+    - doc/hardware/peripherals/adc.rst
+    - tests/drivers/build_all/adc/
+    - include/zephyr/dt-bindings/adc/
+    - dts/bindings/adc/
+  labels:
+    - "area: ADC"
+  tests:
+    - drivers.adc
+
+"Drivers: CAN":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+    - Hasanfurkan-Akkiz_adi
+    - Tahsin-Mutlugun_adi
+  files:
+    - boards/shields/mcp2515/
+    - boards/shields/tcan4550evm/
+    - doc/connectivity/canbus/
+    - doc/hardware/peripherals/can/
+    - drivers/can/
+    - drivers/net/canbus.c
+    - dts/bindings/can/
+    - dts/bindings/phy/can-transceiver*
+    - include/zephyr/canbus/
+    - include/zephyr/devicetree/can.h
+    - include/zephyr/drivers/can.h
+    - include/zephyr/drivers/can/
+    - include/zephyr/net/canbus.h
+    - include/zephyr/net/socketcan*.h
+    - samples/drivers/can/
+    - samples/modules/canopennode/
+    - samples/net/sockets/can/
+    - samples/subsys/canbus/
+    - scripts/west_commands/runners/canopen_program.py
+    - subsys/canbus/
+    - subsys/net/l2/canbus/
+    - tests/drivers/build_all/can/
+    - tests/drivers/can/
+    - tests/net/socket/can/
+    - tests/subsys/canbus/
+  labels:
+    - "area: CAN"
+  tests:
+    - drivers.can
+    - canbus
+
+"Drivers: Clock control":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Michael-Perkins_adi
+    - Okan-Sahin_adi
+    - Pete-Johanson_adi
+  files:
+    - drivers/clock_control/
+    - dts/bindings/clock/
+    - include/zephyr/dt-bindings/clock/
+    - include/zephyr/drivers/clock_control.h
+    - include/zephyr/dt-bindings/clock/
+    - tests/drivers/clock_control/
+    - include/zephyr/drivers/clock_control/
+    - doc/hardware/peripherals/clock_control.rst
+  labels:
+    - "area: Clock control"
+  tests:
+    - drivers.clock
+
+"Drivers: Counter":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Okan-Sahin_adi
+    - Pete-Johanson_adi
+    - Tahsin-Mutlugun_adi
+  files:
+    - drivers/counter/
+    - include/zephyr/drivers/counter.h
+    - tests/drivers/counter/
+    - doc/hardware/peripherals/counter.rst
+    - samples/drivers/counter/
+    - tests/drivers/build_all/counter/
+  labels:
+    - "area: Counter"
+  tests:
+    - drivers.counter
+
+"Drivers: DMA":
+  status: maintained
+  maintainers:
+    - Tahsin-Mutlugun_adi
+  collaborators:
+    - Maureen-Helm_adi
+    - Jason-Murphy_adi
+    - Pete-Johanson_adi
+  files:
+    - drivers/dma/
+    - tests/drivers/dma/
+    - include/zephyr/drivers/dma/
+    - dts/bindings/dma/
+    - include/zephyr/dt-bindings/dma/
+    - doc/hardware/peripherals/dma.rst
+    - include/zephyr/drivers/dma.h
+    - include/zephyr/dt-bindings/dma/
+  labels:
+    - "area: DMA"
+  tests:
+    - drivers.dma
+
+"Drivers: Entropy":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - drivers/entropy/
+    - include/zephyr/drivers/entropy.h
+    - tests/drivers/entropy/
+    - doc/hardware/peripherals/entropy.rst
+  labels:
+    - "area: Crypto / RNG"
+  tests:
+    - drivers.entropy
+
+"Drivers: Ethernet":
+  status: odd fixes
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Jason-Murphy_adi
+    - Pete-Johanson_adi
+  files:
+    - drivers/ethernet/
+    - include/zephyr/dt-bindings/ethernet/
+    - tests/drivers/build_all/ethernet/
+    - dts/bindings/ethernet/
+    - tests/drivers/ethernet/
+    - include/zephyr/drivers/ethernet/
+    - include/zephyr/net/phy.h
+    - include/zephyr/net/ethernet.h
+  labels:
+    - "area: Ethernet"
+  tests:
+    - net.ethernet
+
+"Drivers: Flash":
+  status: maintained
+  maintainers:
+    - Mert-Vatansever_adi
+  collaborators:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+    - Hasanfurkan-Akkiz_adi
+    - Tahsin-Mutlugun_adi
+  files:
+    - drivers/flash/
+    - dts/bindings/flash_controller/
+    - include/zephyr/dt-bindings/flash_controller/
+    - include/zephyr/drivers/flash.h
+    - samples/drivers/flash_shell/
+    - samples/drivers/soc_flash_nrf/
+    - tests/drivers/flash/
+    - doc/hardware/peripherals/flash.rst
+    - include/zephyr/drivers/flash/
+    - tests/drivers/flash_simulator/
+    - tests/drivers/build_all/flash/
+  labels:
+    - "area: Flash"
+  tests:
+    - drivers.flash
+
+"Drivers: GPIO":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Michael-Perkins_adi
+    - Tahsin-Mutlugun_adi
+    - Pete-Johanson_adi
+  files:
+    - doc/hardware/peripherals/gpio.rst
+    - drivers/gpio/
+    - dts/bindings/gpio/
+    - include/zephyr/drivers/gpio/
+    - include/zephyr/drivers/gpio.h
+    - include/zephyr/dt-bindings/gpio/
+    - tests/drivers/gpio/
+    - tests/drivers/build_all/gpio/
+  labels:
+    - "area: GPIO"
+  tests:
+    - drivers.gpio
+
+"Drivers: HW Info":
+  status: maintained
+  maintainers:
+    - Hasanfurkan-Akkiz_adi
+  collaborators:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  files:
+    - drivers/hwinfo/
+    - dts/bindings/hwinfo/
+    - include/zephyr/drivers/hwinfo.h
+    - tests/drivers/hwinfo/
+    - doc/hardware/peripherals/hwinfo.rst
+  labels:
+    - "area: HWINFO"
+  tests:
+    - drivers.hwinfo
+
+"Drivers: I2C":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Tahsin-Mutlugun_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - drivers/i2c/
+    - include/zephyr/drivers/i2c/
+    - dts/bindings/i2c/
+    - include/zephyr/drivers/i2c.h
+    - tests/drivers/i2c/
+    - doc/hardware/peripherals/i2c.rst
+    - include/zephyr/dt-bindings/i2c/
+    - tests/boards/*/i2c/
+    - tests/drivers/*/i2c/
+    - samples/drivers/i2c/
+  labels:
+    - "area: I2C"
+  tests:
+    - drivers.i2c
+
+"Drivers: I3C":
+  status: maintained
+  maintainers:
+    - Tahsin-Mutlugun_adi
+  collaborators:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  files:
+    - drivers/i3c/
+    - dts/bindings/i3c/
+    - include/zephyr/drivers/i3c.h
+    - include/zephyr/drivers/i3c/
+    - doc/hardware/peripherals/i3c.rst
+    - tests/drivers/build_all/i3c/
+  labels:
+    - "area: I3C"
+  tests:
+    - drivers.i3c
+
+"Drivers: MEMC":
+  status: odd fixes
+  maintainers:
+    - Pete-Johanson_adi
+  collaborators:
+    - Maureen-Helm_adi
+  files:
+    - drivers/memc/
+    - samples/drivers/memc/
+    - tests/drivers/memc/
+    - include/zephyr/dt-bindings/memory-controller/
+    - dts/bindings/memory-controllers/
+  labels:
+    - "area: MEMC"
+  tests:
+    - samples.drivers.memc
+    - drivers.memc
+
+"Drivers: RTC":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Okan-Sahin_adi
+    - Pete-Johanson_adi
+  files:
+    - drivers/rtc/
+    - include/zephyr/drivers/rtc/
+    - tests/drivers/rtc/
+    - doc/hardware/peripherals/rtc.rst
+    - include/zephyr/drivers/rtc.h
+    - tests/drivers/build_all/rtc/
+    - dts/bindings/rtc/
+  labels:
+    - "area: RTC"
+  tests:
+    - drivers.rtc
+
+"Drivers: Pin Control":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Okan-Sahin_adi
+    - Michael-Perkins_adi
+    - Pete-Johanson_adi
+  files:
+    - doc/hardware/pinctrl/
+    - include/zephyr/drivers/pinctrl/
+    - include/zephyr/drivers/pinctrl.h
+    - drivers/pinctrl/
+    - tests/drivers/pinctrl/
+    - dts/bindings/pinctrl/
+    - include/zephyr/dt-bindings/pinctrl/
+  labels:
+    - "area: Pinctrl"
+  tests:
+    - drivers.pinctrl
+
+"Drivers: PWM":
+  status: maintained
+  maintainers:
+    - Sadik-Ozer_adi
+  collaborators:
+    - Pete-Johanson_adi
+    - Maureen-Helm_adi
+  files:
+    - drivers/pwm/
+    - dts/bindings/pwm/
+    - include/zephyr/dt-bindings/pwm/
+    - tests/drivers/pwm/
+    - include/zephyr/*/pwms.h
+    - doc/hardware/peripherals/pwm.rst
+    - tests/drivers/build_all/pwm/
+    - include/zephyr/drivers/pwm.h
+    - include/zephyr/drivers/pwm/
+  labels:
+    - "area: PWM"
+  tests:
+    - drivers.pwm
+
+"Drivers: SDHC":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - drivers/sdhc/
+    - tests/drivers/sdhc/
+    - include/zephyr/drivers/sdhc.h
+    - dts/bindings/sdhc/
+    - doc/hardware/peripherals/sdhc.rst
+  labels:
+    - "area: Disk Access"
+  tests:
+    - drivers.sdhc
+
+"Drivers: Serial/UART":
+  status: maintained
+  maintainers:
+    - Tahsin-Mutlugun_adi
+  collaborators:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+    - Sadik-Ozer_adi
+  files:
+    - drivers/serial/
+    - include/zephyr/drivers/uart.h
+    - include/zephyr/drivers/uart/
+    - dts/bindings/serial/
+    - samples/drivers/uart/
+    - tests/drivers/uart/
+    - tests/drivers/build_all/uart/
+    - doc/hardware/peripherals/uart.rst
+    - include/zephyr/drivers/serial/
+    - include/zephyr/drivers/uart_pipe.h
+  labels:
+    - "area: UART"
+  tests:
+    - drivers.uart
+
+"Drivers: Sensors":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Okan-Sahin_adi
+    - Pete-Johanson_adi
+    - Yasin-Ustuner_adi
+  files:
+    - drivers/sensor/
+    - include/zephyr/drivers/sensor.h
+    - include/zephyr/drivers/sensor_data_types.h
+    - samples/sensor/
+    - tests/drivers/sensor/
+    - dts/bindings/sensor/
+    - include/zephyr/drivers/sensor/
+    - include/zephyr/dt-bindings/sensor/
+    - doc/hardware/peripherals/sensor/
+    - tests/drivers/build_all/sensor/
+  labels:
+    - "area: Sensors"
+  tests:
+    - drivers.sensors
+
+"Drivers: SPI":
+  status: maintained
+  maintainers:
+    - Tahsin-Mutlugun_adi
+  collaborators:
+    - Jason-Murphy_adi
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  files:
+    - drivers/spi/
+    - include/zephyr/drivers/spi.h
+    - tests/drivers/spi/
+    - dts/bindings/spi/
+    - include/zephyr/dt-bindings/spi/
+    - doc/hardware/peripherals/spi.rst
+  labels:
+    - "area: SPI"
+  tests:
+    - drivers.spi
+
+"Drivers: W1":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - doc/hardware/peripherals/w1.rst
+    - drivers/w1/
+    - dts/bindings/w1/
+    - include/zephyr/drivers/w1.h
+    - include/zephyr/drivers/sensor/w1_sensor.h
+    - tests/drivers/w1/
+    - tests/drivers/build_all/w1/
+    - samples/drivers/w1/
+  labels:
+    - "area: W1"
+  tests:
+    - drivers.w1
+
+"Drivers: Watchdog":
+  status: odd fixes
+  maintainers:
+    - Hasanfurkan-Akkiz_adi
+    - Maureen-Helm_adi
+  collaborators:
+    - Mert-Vatansever_adi
+    - Pete-Johanson_adi
+    - Sadik-Ozer_adi
+  files:
+    - doc/hardware/peripherals/watchdog.rst
+    - drivers/watchdog/
+    - dts/bindings/watchdog/
+    - include/zephyr/drivers/watchdog.h
+    - samples/drivers/watchdog/
+    - tests/drivers/watchdog/
+    - tests/drivers/build_all/watchdog/
+  labels:
+    - "area: Watchdog"
+  tests:
+    - drivers.watchdog
+
+Input:
+  status: maintained
+  maintainers:
+    - Pete-Johanson_adi
+  files:
+    - doc/services/input/
+    - drivers/input/
+    - dts/bindings/input/
+    - include/zephyr/dt-bindings/input/
+    - include/zephyr/input/
+    - samples/subsys/input/
+    - subsys/input/
+    - tests/drivers/build_all/input/
+    - tests/subsys/input/
+    - tests/drivers/input/
+  description: >-
+    Input subsystem and drivers
+  labels:
+    - "area: Input"
+  tests:
+    - drivers.input
+    - input
+
+Kconfig:
+  status: odd fixes
+  collaborators:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  files:
+    - scripts/kconfig/
+    - doc/build/kconfig/
+    - Kconfig.zephyr
+    - tests/kconfig/configdefault/
+    - tests/misc/kconfigoptions/
+  labels:
+    - "area: Kconfig"
+  description: >-
+    See https://docs.zephyrproject.org/latest/build/kconfig/index.html and
+    https://docs.zephyrproject.org/latest/hardware/porting/board_porting.html#default-board-configuration
+  tests:
+    - kconfig
+
+Kernel:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  files:
+    - doc/kernel/
+    - include/zephyr/kernel*.h
+    - include/zephyr/spinlock.h
+    - include/zephyr/fatal.h
+    - kernel/
+    - tests/kernel/
+    - include/zephyr/sys_clock.h
+    - samples/kernel/
+    - include/zephyr/kernel/
+    - tests/lib/p4workq/
+  files-exclude:
+    - tests/kernel/mem_protect/
+  labels:
+    - "area: Kernel"
+  tests:
+    - kernel
+
+Base OS:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  files:
+    - include/zephyr/sys/
+    - lib/os/
+    - tests/misc/print_format/
+    - tests/lib/p4workq/
+    - tests/lib/fdtable/
+  files-exclude:
+    - include/zephyr/sys/cbprintf*
+    - tests/unit/cbprintf/
+    - tests/lib/cbprintf_*/
+    - lib/os/cbprintf*
+    - lib/os/Kconfig.cbprintf
+    - include/zephyr/sys/mem_manage.h
+    - include/zephyr/sys/mpsc_pbuf.h
+    - include/zephyr/sys/mpsc_packet.h
+    - lib/os/mpsc_pbuf.c
+  labels:
+    - "area: Base OS"
+  tests:
+    - printk
+
+Linker Scripts:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Pete-Johanson_adi
+  collaborators:
+    - Tahsin-Mutlugun_adi
+  files:
+    - include/zephyr/linker/
+    - tests/misc/iterable_sections/
+    - tests/application_development/code_relocation/
+  labels:
+    - "area: Linker Scripts"
+  tests:
+    - linker
+
+MAINTAINERS file:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - MAINTAINERS.yml
+    - ADI-MAINTAINERS.yml
+  labels:
+    - "area: Process"
+  description: >-
+    Zephyr Maintainers File
+
+Power management:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Kevin-Gillespie_adi
+    - Pete-Johanson_adi
+    - Sean-Kyer_adi
+    - Tahsin-Mutlugun_adi
+  files:
+    - include/zephyr/pm/
+    - samples/subsys/pm/
+    - subsys/pm/
+    - tests/subsys/pm/
+    - doc/services/pm/
+    - drivers/power_domain/
+    - dts/bindings/power/
+    - include/zephyr/dt-bindings/power/
+  labels:
+    - "area: Power Management"
+  tests:
+    - pm
+
+Retention:
+  status: maintained
+  maintainers:
+    - Pete-Johanson_adi
+  collaborators:
+    - Sean-Kyer_adi
+  files:
+    - dts/bindings/retention/
+    - include/zephyr/retention/
+    - subsys/retention/
+    - doc/services/retention/
+  labels:
+    - "area: Retention"
+
+Sensor Subsystem:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - dts/bindings/sensor/zephyr,sensing.yaml
+    - dts/bindings/sensor/zephyr,sensing*.yaml
+    - include/zephyr/sensing/
+    - doc/services/sensing/
+    - subsys/sensing/
+    - samples/subsys/sensing/
+    - tests/subsys/sensing/
+  labels:
+    - "area: Sensor Subsystem"
+  tests:
+    - sample.sensing
+    - sensing.api
+
+Shell:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+    - Sean-Kyer_adi
+  files:
+    - include/zephyr/shell/
+    - samples/subsys/shell/
+    - subsys/shell/
+    - tests/subsys/shell/
+    - doc/services/shell/
+  labels:
+    - "area: Shell"
+  tests:
+    - shell
+
+Shields:
+  status: maintained
+  maintainers:
+    - Pete-Johanson_adi
+  collaborators:
+    - Maureen-Helm_adi
+  files:
+    - boards/shields/
+    - doc/hardware/porting/shields.rst
+    - samples/shields/
+  labels:
+    - "area: Shields"
+  tests:
+    - sample.shields
+
+ADI Platforms:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Burak-Babaoglu_adi
+    - Hasanfurkan-Akkiz_adi
+    - Jason-Murphy_adi
+    - Mert-Vatansever_adi
+    - Okan-Sahin_adi
+    - Pete-Johanson_adi
+    - Sean-Kyer_adi
+    - Tahsin-Mutlugun_adi
+    - Yasin-Ustuner_adi
+  files:
+    - boards/adi/
+    - boards/shields/pmod_acl/
+    - drivers/*/*max*
+    - drivers/*/*max*/
+    - drivers/dac/dac_ltc*
+    - drivers/ethernet/eth_adin*
+    - drivers/mdio/mdio_adin*
+    - drivers/regulator/regulator_adp5360*
+    - drivers/sensor/adi/
+    - dts/arm/adi/
+    - dts/bindings/*/adi,*
+    - dts/bindings/*/lltc,*
+    - dts/bindings/*/maxim,*
+    - soc/adi/
+  labels:
+    - "platform: ADI"
+
+Secure storage:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Pete-Johanson_adi
+    - Sean-Kyer_adi
+  files:
+    - subsys/secure_storage/
+    - include/zephyr/psa/
+    - samples/psa/
+    - doc/services/storage/secure_storage/index.rst
+    - tests/subsys/secure_storage/
+  labels:
+    - "area: Secure storage"
+  tests:
+    - psa.secure_storage
+
+USB:
+  status: maintained
+  maintainers:
+    - Hasanfurkan-Akkiz_adi
+    - Pete-Johanson_adi
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - drivers/usb/
+    - dts/bindings/usb/
+    - include/zephyr/dt-bindings/usb/
+    - include/zephyr/*/usb/
+    - include/zephyr/usb/
+    - samples/subsys/usb/
+    - subsys/usb/
+    - tests/subsys/usb/
+    - tests/drivers/usb/
+    - tests/drivers/udc/
+    - doc/connectivity/usb/
+  labels:
+    - "area: USB"
+  tests:
+    - usb
+    - drivers.usb
+
+"West project: cmsis":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - modules/cmsis/
+  labels:
+    - "area: CMSIS-Core"
+
+"West project: cmsis-dsp":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - modules/cmsis-dsp/
+  labels:
+    - "area: CMSIS-DSP"
+
+"West project: hal_adi":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Gokhan-Celik_adi
+    - Hasanfurkan-Akkiz_adi
+    - Mert-Vatansever_adi
+    - Pete-Johanson_adi
+    - Sadik-Ozer_adi
+    - Tahsin-Mutlugun_adi
+  files: []
+  labels:
+    - "platform: ADI"
+
+"West project: mbedtls":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+    - Sadik-Ozer_adi
+  files:
+    - modules/mbedtls/
+    - tests/crypto/mbedtls/
+    - tests/benchmarks/mbedtls/
+  labels:
+    - "area: mbedTLS / PSA Crypto"
+  tests:
+    - benchmark.crypto.mbedtls
+    - crypto.mbedtls
+    - psa.secure_storage
+
+"West project: mcuboot":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - modules/Kconfig.mcuboot
+    - tests/boot/
+  labels:
+    - "area: MCUBoot"
+
+"West project: packetcraft-adi":
+  status: maintained
+  maintainers:
+    - Kevin-Gillespie_adi
+    - Maureen-Helm_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files: []
+  labels:
+    - "platform: ADI Bluetooth"
+
+"West project: trusted-firmware-m":
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Sadik-Ozer_adi
+  collaborators:
+    - Pete-Johanson_adi
+  files:
+    - modules/trusted-firmware-m/
+    - samples/tfm_integration/
+    - doc/services/tfm/
+  labels:
+    - "area: TF-M"
+  tests:
+    - trusted-firmware-m
+    - psa.secure_storage
+
+Continuous Integration:
+  status: maintained
+  maintainers:
+    - Maureen-Helm_adi
+    - Mert-Vatansever_adi
+    - Okan-Sahin_adi
+  collaborators:
+    - Gokhan-Celik_adi
+    - Pete-Johanson_adi
+    - Ufuk-Candir_adi
+  files:
+    - .github/
+    - scripts/ci/
+    - scripts/make_bugs_pickle.py
+    - .checkpatch.conf
+    - scripts/gitlint/
+    - scripts/set_assignees.py
+  labels:
+    - "area: Continuous Integration"

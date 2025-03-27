@@ -104,7 +104,7 @@ jobs:
         FLAGS="-v"
         FLAGS+=" -o ${{ github.event.repository.owner.login }}"
         FLAGS+=" -r ${{ github.event.repository.name }}"
-        FLAGS+=" -M MAINTAINERS.yml"
+        FLAGS+=" -M ADI-MAINTAINERS.yml"
         if [ "${{ github.event_name }}" = "pull_request_target" ]; then
           if [ "${{ github.base_ref }}" = "main" ]; then
             FLAGS+=" -P ${{ github.event.pull_request.number }}"

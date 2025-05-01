@@ -24,6 +24,7 @@
 		zephyr,shell-uart = &uart2;
 		zephyr,sram = &m4_sram;
 		zephyr,flash = &flash0;
+		zephyr,code-rv32-partition = &flash1;
 		zephyr,display = &st7735;
 		zephyr,canbus = &can0;
 	};
@@ -105,26 +106,6 @@
 	};
 };
 
-&gpio0 {
-	status = "okay";
-};
-
-&gpio1 {
-	status = "okay";
-};
-
-&gpio2 {
-	status = "okay";
-};
-
-&gpio3 {
-	status = "okay";
-};
-
-&gpio4 {
-	status = "okay";
-};
-
 &uart2 {
 	clock-source = <ADI_MAX32_PRPH_CLK_SRC_IBRO>;
 	pinctrl-0 = <&uart2a_tx_p1_10 &uart2a_rx_p1_9>;
@@ -133,6 +114,14 @@
 	data-bits = <8>;
 	parity = "none";
 	status = "okay";
+};
+
+&can0 {
+	status = "okay";
+	pinctrl-0 = <&can0b_tx_p2_23 &can0b_rx_p2_22>;
+	pinctrl-names = "default";
+	bitrate = <500000>;
+	sample-point = <800>;
 };
 
 &wdt0 {

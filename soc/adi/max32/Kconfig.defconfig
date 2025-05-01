@@ -7,4 +7,30 @@ if SOC_FAMILY_MAX32
 
 rsource "Kconfig.defconfig.max*"
 
+if SOC_FAMILY_MAX32_M4 || SOC_FAMILY_MAX32_M33
+
+config SRAM_VECTOR_TABLE
+	default y
+
+endif
+
+if SOC_FAMILY_MAX32_RV32
+
+config RISCV_TRAP_HANDLER_ALIGNMENT
+	default 256
+
+config ARCH_SW_ISR_TABLE_ALIGN
+	default 32
+
+config RISCV_SOC_CONTEXT_SAVE
+	default y
+
+config RISCV_SOC_OFFSETS
+	default y
+
+config RISCV_MCAUSE_EXCEPTION_MASK
+	default 0xFFF
+
+endif
+
 endif # SOC_FAMILY_MAX32

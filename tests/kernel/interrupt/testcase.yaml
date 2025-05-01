@@ -39,6 +39,9 @@ tests:
       # On it8xxx2_evb, current trigger_irq implementation of RISC-V architecture
       # does not trigger interrupts
       - it8xxx2_evb
+      - max32655evkit/max32655/rv32
+      - max32690evkit/max32690/rv32
+      - max78002evkit/max78002/rv32
     arch_exclude:
       # test needs 2 working interrupt lines
       - xtensa

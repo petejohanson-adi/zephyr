@@ -37,6 +37,7 @@ config SOC_FAMILY_MAX32_RV32
 	select ATOMIC_OPERATIONS_C
 	select INCLUDE_RESET_VECTOR
 	select CLOCK_CONTROL
+	select HAS_FLASH_LOAD_OFFSET
 	imply XIP
 
 config SOC_MAX32655_M4
@@ -70,16 +71,27 @@ config MAX32_ON_ENTER_CPU_IDLE_HOOK
 config MAX32_HAS_SECONDARY_RV32
 	bool
 
+if MAX32_HAS_SECONDARY_RV32
+
 config MAX32_SECONDARY_RV32
 	bool "Secondary RISC-V core enable"
-	depends on MAX32_HAS_SECONDARY_RV32
 
 DT_CHOSEN_Z_CODE_RV32_PARTITION := zephyr,code-rv32-partition
+DT_CHOSEN_Z_RV32_FLASH := zephyr,rv32-flash
 
 config MAX32_SECONDARY_RV32_BOOT_ADDRESS
 	hex "Secondary RISC-V core boot address"
-	default $(dt_chosen_reg_addr_hex,$(DT_CHOSEN_Z_CODE_RV32_PARTITION))
+	default $(dt_chosen_reg_addr_hex,$(DT_CHOSEN_Z_RV32_FLASH)) if $(dt_chosen_enabled,$(DT_CHOSEN_Z_RV32_FLASH))
+	default 0x0
 	depends on MAX32_SECONDARY_RV32
+
+config MAX32_SECONDARY_RV32_BOOT_OFFSET
+	hex "Secondary RISC-V core boot address offset"
+	default $(dt_chosen_reg_addr_hex,$(DT_CHOSEN_Z_CODE_RV32_PARTITION)) if $(dt_chosen_enabled,$(DT_CHOSEN_Z_CODE_RV32_PARTITION))
+	default 0x0
+	depends on MAX32_SECONDARY_RV32
+
+endif
 
 config BUILD_WITH_TFM
 	default y if TRUSTED_EXECUTION_NONSECURE

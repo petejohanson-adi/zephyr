@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-storage_partition: &m4_storage_partition {};
+storage_partition: &rv32_storage_partition {};

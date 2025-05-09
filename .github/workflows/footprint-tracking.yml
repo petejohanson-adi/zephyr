@@ -26,7 +26,7 @@ concurrency:
 jobs:
   footprint-tracking:
     runs-on:
-      group: ses-edi-build-lu-x64-11
+      group: arc
     timeout-minutes: 120
     if: github.repository_owner == 'zephyrproject-rtos'
     container:

@@ -14,7 +14,7 @@ permissions:
 jobs:
   backport:
     name: Backport
-    runs-on: ses-edi-build-lu-x64-10
+    runs-on: arc
     timeout-minutes: 15
     permissions:
       contents: write       # to create/push backport branches

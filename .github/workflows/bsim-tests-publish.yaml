@@ -12,7 +12,7 @@ permissions:
 jobs:
   bsim-test-results:
     name: "Publish BabbleSim Test Results"
-    runs-on: ses-edi-build-lu-x64-10
+    runs-on: arc
     timeout-minutes: 20
     if: github.event.workflow_run.conclusion != 'skipped'
     permissions:

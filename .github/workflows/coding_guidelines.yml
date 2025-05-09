@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   compliance_job:
-    runs-on: ses-edi-build-lu-x64-10
+    runs-on: arc
     timeout-minutes: 30
     name: Run coding guidelines checks on patch series (PR)
     steps:

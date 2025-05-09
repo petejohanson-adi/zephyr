@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   check_compliance:
-    runs-on: ses-edi-build-lu-x64-10
+    runs-on: arc
     timeout-minutes: 30
     name: Run compliance checks on patch series (PR)
     steps:
@@ -89,6 +89,11 @@ jobs:
         python-version: 3.12
         cache: pip
         cache-dependency-path: scripts/requirements-actions.txt
+
+    - name: Install Ubuntu dependencies
+      run: |
+        # Needed for python-magic used in the compliance checks
+        sudo apt-get update && sudo apt-get install -y libmagic1
 
     - name: Install Python packages
       run: |

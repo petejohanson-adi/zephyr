@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   contribs:
-    runs-on: ses-edi-build-lu-x64-10
+    runs-on: arc
     timeout-minutes: 15
     permissions:
       pull-requests: write # to create/update pull request comments

@@ -28,7 +28,7 @@ jobs:
   twister-build-prep:
     if: github.repository_owner == 'zephyrproject-rtos'
     runs-on:
-      group: ses-edi-build-lu-x64-11
+      group: arc
     timeout-minutes: 60
     container:
       image: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.29.4.20260912
@@ -154,7 +154,7 @@ jobs:
 
   twister-build:
     runs-on:
-      group: ses-edi-build-lu-x64-11
+      group: arc
     needs: twister-build-prep
     if: needs.twister-build-prep.outputs.size != 0
     container:
@@ -320,7 +320,7 @@ jobs:
       ELASTICSEARCH_SERVER: "https://elasticsearch.zephyrproject.io:443"
     needs:
       - twister-build
-    runs-on: ses-edi-build-lu-x64-10
+    runs-on: arc
     timeout-minutes: 30
     permissions:
       checks: write # to create the check run entry with Twister test results

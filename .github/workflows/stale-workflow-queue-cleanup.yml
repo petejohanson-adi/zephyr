@@ -16,7 +16,7 @@ concurrency:
 jobs:
   cleanup:
     name: Cleanup
-    runs-on: ses-edi-build-lu-x64-10
+    runs-on: arc
     timeout-minutes: 10
     if: github.ref == 'refs/heads/main'
     permissions:

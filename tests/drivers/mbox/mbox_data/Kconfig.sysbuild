@@ -12,3 +12,6 @@ string
 	default "lpcxpresso55s69/lpc55s69/cpu1" if $(BOARD) = "lpcxpresso55s69"
 	default "mimxrt1180_evk/mimxrt1189/cm7" if $(BOARD) = "mimxrt1180_evk"
 	default "ek_ra8p1/r7ka8p1kflcac/cm33" if $(BOARD) = "ek_ra8p1"
+	default "max78002evkit/max78002/rv32" if $(BOARD) = "max78002evkit"
+	default "max32690evkit/max32690/rv32" if $(BOARD) = "max32690evkit"
+	default "max32655fthr/max32655/rv32" if $(BOARD) = "max32655fthr"

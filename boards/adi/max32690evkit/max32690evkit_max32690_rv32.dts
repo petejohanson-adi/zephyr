@@ -46,6 +46,10 @@
 	status = "okay";
 };
 
+&flc1 {
+	status = "okay";
+};
+
 &wdt1 {
 	status = "okay";
 };

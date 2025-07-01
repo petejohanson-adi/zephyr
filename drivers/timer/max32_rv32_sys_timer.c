@@ -121,16 +121,25 @@ void sys_clock_set_timeout(int32_t ticks, bool idle)
 
 	k_spinlock_key_t key = k_spin_lock(&lock);
 	uint32_t next_cycle;
+	uint32_t count;
 
-	if (ticks == K_TICKS_FOREVER) {
-		next_cycle = last_cycle + CYCLES_MAX;
+	if (ticks == INT32_MAX) {
+		next_cycle = (last_tick * CYC_PER_TICK) + CYCLES_MAX;
 	} else if (ticks == 0) {
-		next_cycle = MXC_TMR_GetCount(regs) + (CYC_PER_TICK * 1.5);
+		next_cycle = MXC_TMR_GetCount(regs) + (CYC_PER_TICK * 3 / 2);
 		next_cycle -= (next_cycle % CYC_PER_TICK);
 	} else {
 		next_cycle = (last_tick + last_elapsed + ticks) * CYC_PER_TICK;
 		if ((next_cycle - last_cycle) > CYCLES_MAX) {
-			next_cycle = last_cycle + CYCLES_MAX;
+			next_cycle = (last_tick * CYC_PER_TICK) + CYCLES_MAX;
+		} else {
+			count = MXC_TMR_GetCount(regs);
+			if (next_cycle < count) {
+				next_cycle += DIV_ROUND_UP((count - next_cycle), CYC_PER_TICK) *
+					      CYC_PER_TICK;
+			} else if (next_cycle - count < CYC_PER_TICK / 6) {
+				next_cycle += CYC_PER_TICK;
+			}
 		}
 	}
 

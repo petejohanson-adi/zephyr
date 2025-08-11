@@ -44,7 +44,7 @@ jobs:
 
     - name: Get Access Token
       id: generate-github-app-token
-      uses: adi-innersource/shared-actions/generate-github-token@generate-github-token-v1.0.0
+      uses: adi-innersource/shared-actions/generate-github-token@45fc4e63b0e877e3fc9af0f03153d6fb89ac700d # generate-github-token-v1.0.2
       with:
         app-id: ${{ secrets.TOKEN_GENERATOR_APP_ID }}
         private-key: ${{ secrets.TOKEN_GENERATOR_APP_PRIVATE_KEY }}

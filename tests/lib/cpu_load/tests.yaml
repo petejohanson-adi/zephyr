@@ -1,5 +1,7 @@
 common:
   tags: cpu_load
+  extra_configs:
+    - CONFIG_MAX32_ON_ENTER_CPU_IDLE_HOOK=n
 tests:
   # Idle-hook backend, covering every architecture that provides the idle hooks
   # (ARCH_HAS_CPU_IDLE_HOOKS). This spans both ways of closing the idle window:

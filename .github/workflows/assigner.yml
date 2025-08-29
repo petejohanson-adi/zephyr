@@ -69,6 +69,7 @@ jobs:
       with:
         fetch-depth: 0
         persist-credentials: false
+        token: ${{ steps.generate-github-app-token.outputs.access-token }}
 
     - name: Set up Python
       uses: zephyrproject-rtos/action-python-env@ce8c0c1fe59d56df1c9812d975a6e78d9c51192c # main

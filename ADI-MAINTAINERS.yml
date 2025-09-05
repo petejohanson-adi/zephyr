@@ -1024,6 +1024,11 @@ Secure storage:
   collaborators:
     - Pete-Johanson_adi
     - Sean-Kyer_adi
+    - Jayashree-Srinivasan_adi
+    - Hao-Zhang_adi
+    - Gowri-Ramshankar_adi
+    - Michael-Eskowitz_adi
+    - Mehmet-Ariman_adi
   files:
     - subsys/secure_storage/
     - include/zephyr/psa/
@@ -1105,6 +1110,11 @@ USB:
   collaborators:
     - Pete-Johanson_adi
     - Sadik-Ozer_adi
+    - Jayashree-Srinivasan_adi
+    - Hao-Zhang_adi
+    - Gowri-Ramshankar_adi
+    - Michael-Eskowitz_adi
+    - Mehmet-Ariman_adi
   files:
     - modules/mbedtls/
     - tests/crypto/mbedtls/
@@ -1123,6 +1133,11 @@ USB:
     - Sadik-Ozer_adi
   collaborators:
     - Pete-Johanson_adi
+    - Jayashree-Srinivasan_adi
+    - Hao-Zhang_adi
+    - Gowri-Ramshankar_adi
+    - Michael-Eskowitz_adi
+    - Mehmet-Ariman_adi
   files:
     - modules/Kconfig.mcuboot
     - tests/boot/
@@ -1147,6 +1162,11 @@ USB:
     - Sadik-Ozer_adi
   collaborators:
     - Pete-Johanson_adi
+    - Jayashree-Srinivasan_adi
+    - Hao-Zhang_adi
+    - Gowri-Ramshankar_adi
+    - Michael-Eskowitz_adi
+    - Mehmet-Ariman_adi
   files:
     - modules/trusted-firmware-m/
     - samples/tfm_integration/

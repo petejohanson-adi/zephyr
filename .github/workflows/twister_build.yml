@@ -35,6 +35,9 @@ jobs:
     container:
       image: ${{ inputs.image }}
       options: ${{ inputs.options }}
+      credentials:
+        username: ${{ secrets.CLOUDSMITH_USER }}
+        password: ${{ secrets.CLOUDSMITH_API_KEY }}
     env:
       ZEPHYR_SDK_INSTALL_DIR: ${{ inputs.zephyr_sdk_install_dir }}
       BSIM_OUT_PATH: /opt/bsim/

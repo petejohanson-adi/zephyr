@@ -32,6 +32,9 @@ jobs:
     container:
       image: ${{ inputs.image }}
       options: ${{ inputs.options }}
+      credentials:
+        username: ${{ secrets.CLOUDSMITH_USER }}
+        password: ${{ secrets.CLOUDSMITH_API_KEY }}
     outputs:
       subset: ${{ steps.output-services.outputs.subset }}
       size: ${{ steps.output-services.outputs.size }}

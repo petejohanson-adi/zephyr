@@ -27,6 +27,17 @@ on:
       is_build_only:
         required: true
         type: boolean
+    secrets:
+      CLOUDSMITH_USER:
+        required: true
+      CLOUDSMITH_API_KEY:
+        required: true
+      TOKEN_GENERATOR_APP_ID:
+        required: true
+      TOKEN_GENERATOR_APP_PRIVATE_KEY:
+        required: true
+      AWS_CCACHE_SECRET_ACCESS_KEY:
+        required: false
 
 jobs:
   twister-build:

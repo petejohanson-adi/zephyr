@@ -29,7 +29,11 @@ jobs:
       image: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.28.1.20250624
       options: --entrypoint /bin/bash
       zephyr_sdk_install_dir: /opt/toolchains/zephyr-sdk-0.17.2
-    secrets: inherit
+    secrets:
+      CLOUDSMITH_USER: ${{ github.actor }}
+      CLOUDSMITH_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+      TOKEN_GENERATOR_APP_ID: ${{ secrets.TOKEN_GENERATOR_APP_ID }}
+      TOKEN_GENERATOR_APP_PRIVATE_KEY: ${{ secrets.TOKEN_GENERATOR_APP_PRIVATE_KEY }}
 
   twister-build:
     strategy:
@@ -63,7 +67,12 @@ jobs:
       zephyr_sdk_install_dir: /opt/toolchains/zephyr-sdk-0.17.2
       twister_common: --force-color --inline-logs -v -N -M --retry-failed 3 --timeout-multiplier 3 -T samples/hello_world/ -T samples/basic/ -T samples/philosophers/ -T tests/lib/cpp/ -T samples/subsys/portability/cmsis_rtos_v2/ -T samples/boards/adi/cgm/ -T samples/tfm_integration/ -T samples/bluetooth/hci_uart/ -T samples/bluetooth/hci_uart_async/
       is_build_only: true
-    secrets: inherit
+    secrets:
+      CLOUDSMITH_USER: ${{ github.actor }}
+      CLOUDSMITH_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+      TOKEN_GENERATOR_APP_ID: ${{ secrets.TOKEN_GENERATOR_APP_ID }}
+      TOKEN_GENERATOR_APP_PRIVATE_KEY: ${{ secrets.TOKEN_GENERATOR_APP_PRIVATE_KEY }}
+      AWS_CCACHE_SECRET_ACCESS_KEY: ${{ secrets.AWS_CCACHE_SECRET_ACCESS_KEY }}
 
   twister-test-results:
     # the build-and-test job might be skipped, we don't need to run this job then

@@ -15,6 +15,15 @@ on:
       zephyr_sdk_install_dir:
         required: true
         type: string
+    secrets:
+      CLOUDSMITH_USER:
+        required: true
+      CLOUDSMITH_API_KEY:
+        required: true
+      TOKEN_GENERATOR_APP_ID:
+        required: true
+      TOKEN_GENERATOR_APP_PRIVATE_KEY:
+        required: true
     outputs:
       subset:
         description: "subset"

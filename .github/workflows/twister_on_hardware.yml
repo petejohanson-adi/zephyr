@@ -35,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ses-ist-build-lu-x64-1, ses-ist-build-lu-x64-2, ses-ist-build-lu-x64-7, ses-ist-build-lu-x64-8]
+        runner: [ses-ist-build-lu-x64-7, ses-ist-build-lu-x64-8, ses-ist-build-lu-x64-9]
     needs: twister-build-prep
     if: needs.twister-build-prep.outputs.size != 0
     uses: ./.github/workflows/twister_build.yml

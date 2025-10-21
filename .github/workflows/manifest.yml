@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   contribs:
-    runs-on: arc
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
       pull-requests: write # to create/update pull request comments

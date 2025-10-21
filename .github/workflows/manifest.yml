@@ -66,8 +66,6 @@ jobs:
           git config --global user.name "Your Name"
           git config --global url."https://${ACCESS_TOKEN}:${ACCESS_TOKEN}@github.com/".insteadOf "https://github.com/"
           west init -l . || true
-          # Remove token that used by this session
-          git config --global --unset-all url."https://${ACCESS_TOKEN}:${ACCESS_TOKEN}@github.com/".insteadOf
 
       - name: Manifest
         uses: zephyrproject-rtos/action-manifest@854c72013232bc7a3c437de93ba608d91212b010
@@ -83,3 +81,11 @@ jobs:
           dnm-labels: 'DNM (manifest)'
           blobs-added-labels: 'Binary Blobs Added'
           blobs-modified-labels: 'Binary Blobs Modified'
+
+      - name: clean up token
+        env:
+          ACCESS_TOKEN: ${{ steps.generate-github-app-token.outputs.access-token }}
+        working-directory: zephyrproject/zephyr
+        run: |
+          # Remove token that used by this session
+          git config --global --unset-all url."https://${ACCESS_TOKEN}:${ACCESS_TOKEN}@github.com/".insteadOf

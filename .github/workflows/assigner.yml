@@ -79,7 +79,10 @@ jobs:
     - name: Fetch west.yml/Maintainer.yml from pull request
       if: >
         github.event_name == 'pull_request_target' && github.base_ref == 'main'
+      env:
+        ACCESS_TOKEN: ${{ steps.generate-github-app-token.outputs.access-token }}
       run: |
+        git config --global url."https://${ACCESS_TOKEN}:${ACCESS_TOKEN}@github.com/".insteadOf "https://github.com/"
         git fetch origin pull/${{ github.event.pull_request.number }}/merge
         # FETCH_HEAD is the PR merge commit; its first parent (FETCH_HEAD^1) is
         # the base the merge was computed from. Diffing the PR version against
@@ -96,6 +99,7 @@ jobs:
       run: |
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
+        git config --global url."https://${ACCESS_TOKEN}:${ACCESS_TOKEN}@github.com/".insteadOf "https://github.com/"
         west init -l . || true
 
     - name: Run assignment script

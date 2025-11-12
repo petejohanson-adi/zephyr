@@ -80,6 +80,8 @@
 
 #include <string.h>
 
+#include <soc.h>
+
 #include <zephyr/logging/log.h>
 #include <zephyr/device.h>
 #include <zephyr/sys/bitarray.h>

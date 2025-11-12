@@ -11,7 +11,7 @@
 #include <zephyr/ipc/pbuf.h>
 #include <zephyr/sys/byteorder.h>
 
-#if defined(CONFIG_ARCH_POSIX)
+#if defined(CONFIG_ARCH_POSIX) || defined(CONFIG_SOC_FAMILY_MAX32_RV32)
 #include <soc.h>
 #endif
 

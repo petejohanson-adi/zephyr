@@ -39,6 +39,9 @@ on:
       AWS_CCACHE_SECRET_ACCESS_KEY:
         required: false
 
+permissions:
+  contents: read
+
 jobs:
   twister-build:
     name: ${{ inputs.name }}

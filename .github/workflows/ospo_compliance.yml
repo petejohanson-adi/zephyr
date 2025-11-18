@@ -10,6 +10,9 @@ on:
       - adi-main
       - release*
 
+permissions:
+  contents: read
+
 env:
   COMPLIANCE_PROJECT_NAME: "zephyr-innersource"
 

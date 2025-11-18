@@ -105,14 +105,14 @@ jobs:
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Clone cached Zephyr repository
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         continue-on-error: true
         run: |
           git clone --shared /github/cache/zephyrproject/zephyr .
           git remote set-url origin ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}
 
       - name: Checkout
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -120,7 +120,7 @@ jobs:
           persist-credentials: false
 
       - name: Environment Setup
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         env:
           ACCESS_TOKEN: ${{ steps.generate-github-app-token.outputs.access-token }}
         run: |
@@ -139,7 +139,7 @@ jobs:
           west forall -c 'git reset --hard HEAD'
 
       - name: Generate Test Plan with Twister
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         id: test-plan
         run: |
           export ZEPHYR_BASE=${PWD}
@@ -155,7 +155,7 @@ jobs:
       - name: Determine matrix size
         id: output-services
         run: |
-          if [ "${{github.event_name}}" = "pull_request_target" ]; then
+          if [ "${{github.event_name}}" = "pull_request" ]; then
             if [ -n "${TWISTER_NODES}" ]; then
               subset="[$(seq -s',' 1 ${TWISTER_NODES})]"
             else

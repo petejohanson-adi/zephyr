@@ -123,7 +123,7 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ steps.generate-github-app-token.outputs.access-token }}
         run: |
-          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
             git config --global user.email "bot@zephyrproject.org"
             git config --global user.name "Zephyr Builder"
             rm -fr ".git/rebase-apply"
@@ -224,7 +224,7 @@ jobs:
             fi
           fi
 
-      - if: github.event_name == 'pull_request_target' && inputs.is_build_only
+      - if: github.event_name == 'pull_request' && inputs.is_build_only
         name: Run Tests with Twister Build Only (Pull Request)
         run: |
           rm -f testplan.json
@@ -238,7 +238,7 @@ jobs:
             fi
           fi
 
-      - if: github.event_name == 'pull_request_target' && !inputs.is_build_only
+      - if: github.event_name == 'pull_request' && !inputs.is_build_only
         name: Run Tests with Twister (Pull Request)
         run: |
           rm -f testplan.json

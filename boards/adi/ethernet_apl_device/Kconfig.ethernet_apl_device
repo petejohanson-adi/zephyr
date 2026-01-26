@@ -1,0 +1,8 @@
+# Ethernet APL Device board configuration
+
+# Copyright (c) 2026 Analog Devices, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_ETHERNET_APL_DEVICE
+	select SOC_MAX32690_M4 if BOARD_ETHERNET_APL_DEVICE_MAX32690_M4 || BOARD_ETHERNET_APL_DEVICE_MAX32690_M4_NON_IS
+	select SOC_MAX32690_RV32 if BOARD_ETHERNET_APL_DEVICE_MAX32690_RV32

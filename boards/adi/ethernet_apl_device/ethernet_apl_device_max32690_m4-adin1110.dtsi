@@ -1,0 +1,34 @@
+/*
+ * Copyright (c) 2026 Analog Devices, Inc.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&comms_spi {
+	adin1110: adin1110@0 {
+		compatible = "adi,adin1110";
+		reg = <0x0>;
+		spi-max-frequency = <DT_FREQ_M(25)>;
+		int-gpios = <&gpio0 22 (GPIO_ACTIVE_LOW)>;
+		reset-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW)>;
+		status = "okay";
+		spi-oa;
+		spi-oa-protection;
+
+		port1 {
+			local-mac-address = [ 00 E0 22 FE DA C9 ];
+		};
+
+		mdio {
+			compatible = "adi,adin2111-mdio";
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			ethernet-phy@1 {
+				reg = <0x1>;
+				compatible = "adi,adin2111-phy";
+				disable-tx-mode-24v;
+			};
+		};
+	};
+};

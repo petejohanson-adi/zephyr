@@ -1,0 +1,12 @@
+# Copyright (c) 2026 Analog Devices, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: ethernet_apl_device
+  full_name: Ethernet APL Device
+  vendor: adi
+  socs:
+    - name: max32690
+      variants:
+        - name: non_is
+          cpucluster: 'm4'

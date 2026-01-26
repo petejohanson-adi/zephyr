@@ -1,0 +1,140 @@
+/*
+ * Copyright (c) 2025 Analog Devices, Inc.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <adi/max32/max32690-pinctrl.dtsi>
+#include <zephyr/dt-bindings/gpio/adi-max32-gpio.h>
+#include <zephyr/dt-bindings/memory-controller/adi-max32-hpb.h>
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&gpio2 {
+	status = "okay";
+};
+
+&gpio3 {
+	status = "okay";
+};
+
+&gpio4 {
+	status = "okay";
+};
+
+&uart2 {
+	pinctrl-0 = <&uart2a_tx_p1_10 &uart2a_rx_p1_9 &uart2a_cts_p1_7 &uart2a_rts_p1_8>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	data-bits = <8>;
+	parity = "none";
+};
+
+&uart3 {
+	pinctrl-0 = <&lpuart0b_tx_p3_1 &lpuart0b_rx_p3_0>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	data-bits = <8>;
+	parity = "none";
+};
+
+&spi0b_ss1_p2_26 {
+	power-source = <MAX32_VSEL_VDDIOH>;
+};
+
+&spi0b_miso_p2_27 {
+	power-source = <MAX32_VSEL_VDDIOH>;
+};
+
+&spi0b_mosi_p2_28 {
+	power-source = <MAX32_VSEL_VDDIOH>;
+};
+
+&spi0b_sck_p2_29 {
+	power-source = <MAX32_VSEL_VDDIOH>;
+};
+
+&spi0 {
+	status = "okay";
+	pinctrl-0 = <&spi0b_ss1_p2_26 &spi0b_miso_p2_27 &spi0b_mosi_p2_28 &spi0b_sck_p2_29>;
+	pinctrl-names = "default";
+
+	cs-gpios = <&gpio2 26 GPIO_ACTIVE_LOW>;
+
+	ad7124: ad7124@0 {
+		status = "okay";
+		compatible = "adi,ad7124-adc";
+		reg = <0x0>;
+		spi-max-frequency = <DT_FREQ_M(1)>;
+		#io-channel-cells = <1>;
+		active-device = <0>;
+	};
+};
+
+/* MAXQ1065 bus */
+&spi2 {
+	status = "okay";
+	pinctrl-0 = <&spi2a_mosi_p2_4 &spi2a_miso_p2_3 &spi2a_sck_p2_2>;
+	pinctrl-names = "default";
+
+	cs-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
+};
+
+&i2c1 {
+	pinctrl-0 = <&i2c1a_scl_p2_18 &i2c1a_sda_p2_17>;
+	pinctrl-1 = <&i2c1a_scl_p2_18_sleep &i2c1a_sda_p2_17_sleep>;
+	pinctrl-names = "default", "sleep";
+
+	max42500_wdt: max42500@28 {
+		compatible = "adi,max42500-watchdog";
+		status = "disabled";
+		reg = <0x28>;
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		m4_partition: partition@0 {
+			label = "image-m4";
+			reg = <0x0 DT_SIZE_M(1)>;
+		};
+
+		storage_partition: partition@100000 {
+			label = "storage";
+			reg = <0x100000 DT_SIZE_K(64)>;
+		};
+	};
+};
+
+&flash1 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		rv32_partition: rv32_partition@0 {
+			label = "image-rv32";
+			reg = <0x0 DT_SIZE_K(192)>;
+		};
+
+		rv32_storage_partition: rv32_partition@30000 {
+			label = "rv32-storage";
+			reg = <0x30000 DT_SIZE_K(64)>;
+		};
+	};
+};

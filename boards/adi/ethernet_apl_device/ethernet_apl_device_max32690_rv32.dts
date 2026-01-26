@@ -1,0 +1,48 @@
+/*
+ * Copyright (c) 2026 Analog Devices, Inc.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <adi/max32/max32690-rv32.dtsi>
+#include "ethernet_apl_device_max32690_common.dtsi"
+
+/delete-node/ &storage_partition;
+
+storage_partition: &rv32_storage_partition {};
+
+/ {
+	model = "Analog Devices Ethernet APL Device";
+	compatible = "adi,ethernet-apl-device";
+
+	chosen {
+		zephyr,console = &uart2;
+		zephyr,shell-uart = &uart2;
+		zephyr,sram = &sram8;
+		zephyr,flash-controller = &flc1;
+		zephyr,flash = &flash1;
+		zephyr,code-partition = &rv32_partition;
+	};
+
+    aliases {
+		watchdog0 = &wdt1;
+	};
+};
+
+&rv32_sys_timer {
+	status = "okay";
+};
+
+&uart2 {
+	status = "okay";
+};
+
+&flc1 {
+	status = "okay";
+};
+
+&wdt1 {
+	status = "okay";
+};

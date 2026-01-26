@@ -1,0 +1,23 @@
+# Ethernet APL Device boards configuration
+
+# Copyright (c) 2026 Analog Devices, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_ETHERNET_APL_DEVICE
+
+config MDIO_INIT_PRIORITY
+	default 81
+	depends on MDIO
+
+config PHY_INIT_PRIORITY
+	default 82
+	depends on NET_L2_ETHERNET && ETH_DRIVER
+
+if NETWORKING
+
+config NET_L2_ETHERNET
+	default y
+
+endif # NETWORKING
+
+endif # BOARD_ETHERNET_APL_DEVICE

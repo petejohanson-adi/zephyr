@@ -135,8 +135,6 @@ Bluetooth HCI:
     - Rob-Cornall_adi
   collaborators:
     - Kevin-Gillespie_adi
-    - Sean-Kyer_adi
-    - Abigail-Wolf_adi
   files:
     - include/zephyr/drivers/bluetooth/
     - include/zephyr/drivers/bluetooth.h
@@ -180,7 +178,6 @@ Bluetooth Host:
     - Pete-Johanson_adi
   collaborators:
     - Rob-Cornall_adi
-    - Sean-Kyer_adi
   files:
     - doc/connectivity/bluetooth/
     - include/zephyr/bluetooth/
@@ -900,7 +897,6 @@ Power management:
   collaborators:
     - Kevin-Gillespie_adi
     - Pete-Johanson_adi
-    - Sean-Kyer_adi
     - Tahsin-Mutlugun_adi
   files:
     - include/zephyr/pm/
@@ -920,8 +916,6 @@ Retention:
   status: maintained
   maintainers:
     - Pete-Johanson_adi
-  collaborators:
-    - Sean-Kyer_adi
   files:
     - dts/bindings/retention/
     - include/zephyr/retention/
@@ -956,7 +950,6 @@ Shell:
     - Maureen-Helm_adi
   collaborators:
     - Pete-Johanson_adi
-    - Sean-Kyer_adi
   files:
     - include/zephyr/shell/
     - samples/subsys/shell/
@@ -995,7 +988,6 @@ ADI Platforms:
     - Mert-Vatansever_adi
     - Okan-Sahin_adi
     - Pete-Johanson_adi
-    - Sean-Kyer_adi
     - Tahsin-Mutlugun_adi
     - Yasin-Ustuner_adi
   files:
@@ -1023,11 +1015,9 @@ Secure storage:
     - Sadik-Ozer_adi
   collaborators:
     - Pete-Johanson_adi
-    - Sean-Kyer_adi
     - Jayashree-Srinivasan_adi
     - Hao-Zhang_adi
     - Gowri-Ramshankar_adi
-    - Michael-Eskowitz_adi
     - Mehmet-Ariman_adi
   files:
     - subsys/secure_storage/
@@ -1113,7 +1103,6 @@ USB:
     - Jayashree-Srinivasan_adi
     - Hao-Zhang_adi
     - Gowri-Ramshankar_adi
-    - Michael-Eskowitz_adi
     - Mehmet-Ariman_adi
   files:
     - modules/mbedtls/
@@ -1136,7 +1125,6 @@ USB:
     - Jayashree-Srinivasan_adi
     - Hao-Zhang_adi
     - Gowri-Ramshankar_adi
-    - Michael-Eskowitz_adi
     - Mehmet-Ariman_adi
   files:
     - modules/Kconfig.mcuboot
@@ -1165,7 +1153,6 @@ USB:
     - Jayashree-Srinivasan_adi
     - Hao-Zhang_adi
     - Gowri-Ramshankar_adi
-    - Michael-Eskowitz_adi
     - Mehmet-Ariman_adi
   files:
     - modules/trusted-firmware-m/

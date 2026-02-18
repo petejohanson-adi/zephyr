@@ -1106,7 +1106,8 @@ USB:
     - Mehmet-Ariman_adi
   files:
     - modules/mbedtls/
-    - tests/crypto/mbedtls/
+    - tests/crypto/mbedtls_psa/
+    - tests/crypto/secp256r1/
     - tests/benchmarks/mbedtls/
   labels:
     - "area: mbedTLS / PSA Crypto"
@@ -1180,6 +1181,6 @@ Continuous Integration:
     - scripts/make_bugs_pickle.py
     - .checkpatch.conf
     - scripts/gitlint/
-    - scripts/set_assignees.py
+    - scripts/ci/set_assignees.py
   labels:
     - "area: Continuous Integration"

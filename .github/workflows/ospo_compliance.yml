@@ -11,7 +11,8 @@ on:
       - release*
 
 permissions:
-  contents: read
+  contents: write
+  id-token: write
 
 env:
   COMPLIANCE_PROJECT_NAME: "zephyr-innersource"
@@ -34,9 +35,10 @@ jobs:
           java-version: "17"
 
       - name: Policy Scan Action
-        uses: adi-innersource/policy-scan-action@732de1d8b092df8112e8b16b3fc38777fa917e61 # v2
+        uses: adi-innersource/shared-actions/policy-scan@4dac263c82bf24627a1b1e2e513e0511d8b4f934 # policy-scan-v3
         env:
           BLACKDUCK_AUTH_TOKEN: ${{ secrets.BLACKDUCK_AUTH_TOKEN }}
+          CLOUDSMITH_OSPO_USER: ${{ secrets.CLOUDSMITH_OSPO_USER }}
         with:
           component-name: ${{ env.COMPLIANCE_PROJECT_NAME }}
           component-version: ${{ env.GITHUB_BRANCH_NAME }}
@@ -54,12 +56,13 @@ jobs:
 
       - name: OSPO Collateral
         id: ospo_collateral
-        uses: adi-innersource/reusable-workflows/.github/actions/ospo_collateral@3709136eb4fae9150e8da6b5767005c413ac21cd
+        uses: adi-innersource/shared-actions/policy-collateral@069f4c7d54d6aabcfaf7728378e5cef50f378188 # policy-collateral-v2.5.0
+        env:
+          BLACKDUCK_AUTH_TOKEN: ${{ secrets.BLACKDUCK_AUTH_TOKEN }}
+          AWS_REGION: ${{ secrets.PROD_LICENSE_AWS_REGION }}
+          AWS_S3_BUCKET: ${{ secrets.PROD_LICENSE_AWS_BUCKET_NAME }}
+          AWS_DEPLOY_ROLE: ${{ secrets.PROD_AWS_DEPLOY_ROLE }}
+          CLOUDSMITH_OSPO_USER: ${{ secrets.CLOUDSMITH_OSPO_USER }}
         with:
-          COMPLIANCE_PROJECT_NAME: ${{ env.COMPLIANCE_PROJECT_NAME }}
-          COMPLIANCE_PROJECT_VERSION: ${{ env.GITHUB_BRANCH_NAME }}
-          BLACKDUCK_API_TOKEN: ${{ secrets.BLACKDUCK_API_TOKEN }}
-
-      - name: Cleanup workspace
-        if: always()
-        uses: adi-innersource/reusable-workflows/.github/actions/cleanup_workspace@3709136eb4fae9150e8da6b5767005c413ac21cd
+          component-name: ${{ env.COMPLIANCE_PROJECT_NAME }}
+          component-version: ${{ env.GITHUB_BRANCH_NAME }}

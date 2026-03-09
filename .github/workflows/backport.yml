@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - adi-main*
+      - release-*
 
 permissions:
   contents: read

@@ -30,9 +30,9 @@ jobs:
     uses: ./.github/workflows/twister_build_prep.yml
     with:
       runner: zephyr-16-core-large
-      image: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.28.6.20251003
+      image: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.29.0.20260314
       options: --entrypoint /bin/bash
-      zephyr_sdk_install_dir: /opt/toolchains/zephyr-sdk-0.17.4
+      zephyr_sdk_install_dir: /opt/toolchains/zephyr-sdk-1.0.0
     secrets:
       CLOUDSMITH_USER: ${{ github.actor }}
       CLOUDSMITH_API_KEY: ${{ secrets.GITHUB_TOKEN }}
@@ -66,9 +66,9 @@ jobs:
       name: Board ${{ matrix.board }}
       runner: ${{ matrix.runner }}
       board: ${{ matrix.board }}
-      image: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.28.6.20251003
+      image: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.29.0.20260314
       options: --entrypoint /bin/bash
-      zephyr_sdk_install_dir: /opt/toolchains/zephyr-sdk-0.17.4
+      zephyr_sdk_install_dir: /opt/toolchains/zephyr-sdk-1.0.0
       twister_common: --force-color --inline-logs -v -N -M --retry-failed 3 --timeout-multiplier 3 -T samples/hello_world/ -T samples/basic/ -T samples/philosophers/ -T tests/lib/cpp/ -T samples/subsys/portability/cmsis_rtos_v2/ -T samples/boards/adi/cgm/ -T samples/tfm_integration/ -T samples/bluetooth/hci_uart/ -T samples/bluetooth/hci_uart_async/
       is_build_only: true
     secrets:

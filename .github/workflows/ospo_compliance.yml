@@ -20,7 +20,7 @@ env:
 jobs:
   policy-compliance-scan:
     runs-on: ses-ist-build-lu-x64-adi-zephyr-sdk
-    container: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.28.6.20251003
+    container: ghcr.io/zephyrproject-rtos/ci-repo-cache:v0.29.0.20260314
     steps:
       - name: Checkout code
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0

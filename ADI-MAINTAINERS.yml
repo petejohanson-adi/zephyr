@@ -997,7 +997,8 @@ ADI Platforms:
     - drivers/*/*max*/
     - drivers/dac/dac_ltc*
     - drivers/ethernet/eth_adin*
-    - drivers/mdio/mdio_adin*
+    - drivers/ethernet/phy/phy_adin*
+    - drivers/ethernet/mdio/mdio_adin*
     - drivers/regulator/regulator_adp5360*
     - drivers/sensor/adi/
     - dts/arm/adi/

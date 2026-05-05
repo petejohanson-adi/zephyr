@@ -68,6 +68,11 @@ struct test_data {
 
 static struct test_data tdata;
 
+struct k_work_q spim_spis_work_q;
+
+static K_KERNEL_STACK_DEFINE(spim_spis_work_q_stack,
+			CONFIG_SPI_CONTROLLER_PERIPHERAL_WORKQUEUE_STACK_SIZE);
+
 /* Allocate buffer from spim or spis space. */
 static uint8_t *buf_alloc(size_t len, bool spim)
 {
@@ -209,7 +214,7 @@ static void run_test(bool m_same_size, bool s_same_size, bool async)
 	int srx_len;
 
 	tdata.async = async;
-	rv = k_work_schedule(&tdata.test_work, K_MSEC(10));
+	rv = k_work_schedule_for_queue(&spim_spis_work_q, &tdata.test_work, K_MSEC(10));
 	zassert_equal(rv, 1);
 
 	if (!async) {
@@ -487,6 +492,11 @@ static void test_only_rx_in_chunks(bool async)
 	size_t len1 = 7;
 	size_t len2 = 9;
 
+#if CONFIG_SOC_FAMILY_MAX32
+	// ztest_test_skip();
+	// return;
+#endif
+
 	/* MTX buffer */
 	tdata.bufs[0].buf = buf_alloc(len1 + len2, true);
 	tdata.bufs[0].len = len1 + len2;
@@ -543,6 +553,16 @@ static void after(void *not_used)
 
 static void *suite_setup(void)
 {
+	struct k_work_queue_config cfg = {
+		.name = "spim_spis_work",
+		.no_yield = false,
+	};
+
+	k_work_queue_start(&spim_spis_work_q,
+			   spim_spis_work_q_stack,
+			   K_KERNEL_STACK_SIZEOF(spim_spis_work_q_stack),
+			   CONFIG_SPI_CONTROLLER_PERIPHERAL_WORKQUEUE_PRIORITY, &cfg);
+
 	return NULL;
 }
 

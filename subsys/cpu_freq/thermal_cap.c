@@ -9,6 +9,7 @@
 #include <stddef.h>
 
 #include <zephyr/cpu_freq/pstate.h>
+#include <zephyr/cpu_freq/cpu_freq.h>
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/sensor.h>
@@ -289,3 +290,5 @@ static int thermal_cap_init(void)
 }
 
 SYS_INIT(thermal_cap_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
+
+CPU_FREQ_CONSTRAINT_DEFINE(thermal_cap, 0, cpu_freq_thermal_cap_apply);

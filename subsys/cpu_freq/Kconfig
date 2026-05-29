@@ -36,8 +36,14 @@ config CPU_FREQ_PER_CPU_SCALING
 	  P-state will apply to the whole system instead of just the current CPU.
 	  This should be done at the SoC level.
 
+config CPU_FREQ_CONSTRAINTS
+	bool "CPU Freq p-state constraint support"
+	help
+	  TODO: ADD THE DOCS
+
 config CPU_FREQ_THERMAL_CAP
 	bool "Thermal cap for CPU frequency scaling"
+	select CPU_FREQ_CONSTRAINTS
 	depends on SENSOR
 	depends on DT_HAS_ZEPHYR_CPU_FREQ_THERMAL_CAP_ENABLED
 	help

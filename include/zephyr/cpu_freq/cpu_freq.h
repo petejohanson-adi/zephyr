@@ -49,6 +49,52 @@ extern "C" {
 int cpu_freq_pstate_set(const struct pstate *state);
 
 /**
+ * TODO: DOCS!
+ */
+
+typedef const struct pstate* (*cpu_freq_constraint_func_t)(const struct pstate *state);
+
+/**
+ * @brief SoC-specific PMP region descriptor.
+ *
+ * SoCs can define additional memory regions that need PMP protection
+ * using the PMP_SOC_REGION_DEFINE macro.
+ * These regions are automatically collected via iterable sections and
+ * programmed into the PMP during initialization.
+ *
+ * Note: Uses start/end pointers instead of start/size to support regions
+ * defined by linker symbols where the size is not a compile-time constant.
+ */
+struct cpu_freq_constraint {
+	/** Constraint function */
+	cpu_freq_constraint_func_t func;
+};
+
+/**
+ * @brief Define a CPU Frequency Constraint.
+ *
+ * TODO: Add docs
+ *
+ * @param name Unique identifier for this region
+ * @param _priority Priority for the constraint, in case multiple apply
+ * @param _func The callback for applying the constraint
+ */
+#define CPU_FREQ_CONSTRAINT_DEFINE(name, _priority, _func)				\
+	static const STRUCT_SECTION_ITERABLE_NAMED(cpu_freq_constraint,			\
+						   _CONCAT(_priority, name), name) = {	\
+		.func = _func,									\
+	}
+
+/**
+ * @brief Iterate the CPU Frequency Constraints.
+ *
+ * TODO: Add docs
+ *
+ * @param iterator Pointer iterator for the constraint functions
+ */
+#define CPU_FREQ_CONSTRAINTS_FOREACH(iterator) \
+	STRUCT_SECTION_FOREACH(cpu_freq_constraint, iterator)
+/**
  * @}
  */
 

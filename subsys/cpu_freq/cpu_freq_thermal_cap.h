@@ -14,19 +14,6 @@ extern "C" {
 #endif
 
 /**
- * @brief Apply the cached thermal cap to a requested P-state.
- *
- * The CPU frequency policy selects the requested P-state first. This helper
- * constrains that request to the highest-performance P-state currently allowed
- * by the thermal cap.
- *
- * @param state Requested P-state selected by the active CPU frequency policy.
- *
- * @return P-state to pass to the CPU frequency driver, or NULL when @p state is NULL.
- */
-const struct pstate *cpu_freq_thermal_cap_apply(const struct pstate *state);
-
-/**
  * @brief Sample the configured thermal sensor and update the cached cap.
  *
  * This function may call blocking sensor APIs and must not be called from the

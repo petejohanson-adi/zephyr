@@ -47,7 +47,7 @@ extern "C" {
  *
  * @return 0 in case of success, nonzero in case of failure.
  */
-int cpu_freq_policy_select_pstate(const struct pstate **pstate_out);
+int cpu_freq_policy_select_pstate(atomic_val_t pstate_mask, const struct pstate **pstate_out);
 
 /**
  * @brief Reset data structures used by CPU frequency scaling policy

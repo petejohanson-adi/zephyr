@@ -18,6 +18,7 @@ extern "C" {
 #endif
 
 #include <zephyr/types.h>
+#include <zephyr/sys/atomic_types.h>
 #include <zephyr/cpu_freq/pstate.h>
 
 /**
@@ -49,21 +50,14 @@ extern "C" {
 int cpu_freq_pstate_set(const struct pstate *state);
 
 /**
- * TODO: DOCS!
+ * TODO: DOCS! Something something fetch the currently masked p-states
  */
 
-typedef const struct pstate* (*cpu_freq_constraint_func_t)(const struct pstate *state);
+typedef atomic_val_t (*cpu_freq_constraint_func_t)(void);
 
 /**
- * @brief SoC-specific PMP region descriptor.
+ * @brief TODO: Document
  *
- * SoCs can define additional memory regions that need PMP protection
- * using the PMP_SOC_REGION_DEFINE macro.
- * These regions are automatically collected via iterable sections and
- * programmed into the PMP during initialization.
- *
- * Note: Uses start/end pointers instead of start/size to support regions
- * defined by linker symbols where the size is not a compile-time constant.
  */
 struct cpu_freq_constraint {
 	/** Constraint function */

@@ -8,6 +8,8 @@ zephyr_library()
 zephyr_library_sources(cpu_freq.c)
 zephyr_library_sources_ifdef(CONFIG_CPU_FREQ_THERMAL_CAP thermal_cap.c)
 
+zephyr_linker_sources_ifdef(CONFIG_CPU_FREQ_CONSTRAINTS SECTIONS sections-rom.ld)
+
 # Policy selection
 if(CONFIG_CPU_FREQ_POLICY_NONE)
   message(FATAL_ERROR "No CPU frequency policy selected. Please choose a valid policy in Kconfig.")

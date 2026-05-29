@@ -57,8 +57,10 @@ static void cpu_freq_next_pstate(void)
 		return;
 	}
 
-#if IS_ENABLED(CONFIG_CPU_FREQ_THERMAL_CAP)
-	pstate_next = cpu_freq_thermal_cap_apply(pstate_next);
+#if IS_ENABLED(CONFIG_CPU_FREQ_CONSTRAINTS)
+	CPU_FREQ_CONSTRAINTS_FOREACH(c) {
+		pstate_next = c->func(pstate_next);
+	}
 #endif
 
 #ifndef CONFIG_SMP

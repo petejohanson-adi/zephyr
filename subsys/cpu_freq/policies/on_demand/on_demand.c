@@ -42,7 +42,7 @@ static unsigned int num_unprocessed_cpus;
  * will select the last P-state in the array (the lowest performance state). This is
  * intrinsic behavior: P-states must be defined in decreasing threshold order.
  */
-int cpu_freq_policy_select_pstate(const struct pstate **pstate_out)
+int cpu_freq_policy_select_pstate(atomic_val_t pstates_mask, const struct pstate **pstate_out)
 {
 	int cpu_load;
 	int cpu_id = 0;
@@ -66,6 +66,10 @@ int cpu_freq_policy_select_pstate(const struct pstate **pstate_out)
 	LOG_DBG("CPU%d Load: %d%%", cpu_id, cpu_load);
 
 	for (int i = 0; i < soc_pstates_count; i++) {
+		if (IS_BIT_SET(pstates_mask, i)) {
+			continue;
+		}
+
 		const struct pstate *state = soc_pstates[i];
 
 		if (cpu_load >= state->load_threshold) {

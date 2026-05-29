@@ -46,22 +46,23 @@ K_TIMER_DEFINE(cpu_freq_timer, cpu_freq_timer_handler, NULL);
 static void cpu_freq_next_pstate(void)
 {
 	int ret;
+	atomic_val_t pstates_mask = 0;
 
 	/* Get next performance state */
 	const struct pstate *pstate_next;
 	const struct pstate *pstate_applied;
 
-	ret = cpu_freq_policy_select_pstate(&pstate_next);
+#if IS_ENABLED(CONFIG_CPU_FREQ_CONSTRAINTS)
+	CPU_FREQ_CONSTRAINTS_FOREACH(c) {
+		pstates_mask |= c->func();
+	}
+#endif
+
+	ret = cpu_freq_policy_select_pstate(pstates_mask, &pstate_next);
 	if (ret) {
 		LOG_ERR("Failed to get pstate: %d", ret);
 		return;
 	}
-
-#if IS_ENABLED(CONFIG_CPU_FREQ_CONSTRAINTS)
-	CPU_FREQ_CONSTRAINTS_FOREACH(c) {
-		pstate_next = c->func(pstate_next);
-	}
-#endif
 
 #ifndef CONFIG_SMP
 	if (pstate_next == pstate_last) {

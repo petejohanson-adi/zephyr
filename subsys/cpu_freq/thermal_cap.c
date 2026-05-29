@@ -210,28 +210,13 @@ error:
  * Input: The requested P-state selected by the CPU frequency policy.
  * Output: The P-state after being constrained by the thermal cap.
  */
-const struct pstate *cpu_freq_thermal_cap_apply(const struct pstate *state)
+atomic_val_t cpu_freq_thermal_cap_get_mask(void)
 {
-	size_t requested_index;
-	atomic_val_t cap_index;
-
-	if (state == NULL) {
-		LOG_WRN("Thermal cap received a NULL requested P-state");
-		return NULL;
+	if (!atomic_get(&trip_active)) {
+		return 0;
 	}
 
-	if (thermal_cap_pstate_index(state, &requested_index) != 0) {
-		LOG_ERR("Requested P-state %p is not in the CPUFreq P-state table", state);
-		return state;
-	}
-
-	cap_index = atomic_get(&current_cap_index);
-	if ((cap_index < 0) || ((size_t)cap_index >= ARRAY_SIZE(cpu_freq_pstates))) {
-		LOG_ERR("Invalid thermal cap index %d", (int)cap_index);
-		return state;
-	}
-
-	return cpu_freq_pstates[MAX(requested_index, (size_t)cap_index)];
+	return BIT_MASK(atomic_get(&current_cap_index));
 }
 
 /**
@@ -291,4 +276,4 @@ static int thermal_cap_init(void)
 
 SYS_INIT(thermal_cap_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
 
-CPU_FREQ_CONSTRAINT_DEFINE(thermal_cap, 0, cpu_freq_thermal_cap_apply);
+CPU_FREQ_CONSTRAINT_DEFINE(thermal_cap, 0, cpu_freq_thermal_cap_get_mask);

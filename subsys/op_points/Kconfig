@@ -1,0 +1,16 @@
+# Copyright (c) 2026 Analog Devices, Inc
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig OP_POINTS
+	bool "Operating Points"
+	select CPU_FREQ
+	select CPU_FREQ_CONSTRAINTS
+
+if OP_POINTS
+
+
+module = OP_POINTS
+module-str = Operating Points
+source "subsys/logging/Kconfig.template.log_config"
+
+endif # OP_POINTS

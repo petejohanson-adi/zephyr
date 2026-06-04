@@ -1,6 +1,6 @@
 name: Backport
 on:
-  pull_request_target:
+  pull_request:
     types:
       - closed
       - labeled
@@ -33,10 +33,26 @@ jobs:
         )
       )
     steps:
+      - name: Checkout the code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Get Access Token
+        id: generate-github-app-token
+        uses: adi-innersource/shared-actions/generate-github-token@45fc4e63b0e877e3fc9af0f03153d6fb89ac700d # generate-github-token-v1.0.2
+        with:
+          app-id: ${{ secrets.TOKEN_GENERATOR_APP_ID }}
+          private-key: ${{ secrets.TOKEN_GENERATOR_APP_PRIVATE_KEY }}
+          organization: ${{ github.repository_owner }}
+          repositories: |
+            zephyr
+
       - name: Backport
         uses: zephyrproject-rtos/action-backport@a4fd73877b60c6014f1a25a50b5def0fea334dd1 # v2.0.4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.generate-github-app-token.outputs.access-token }}
           issue_labels: Backport
           labels_template: '["Backport"]'
           body_template: "Backport <%= mergeCommitSha %> from #<%= number %>.\n\n_Original PR description:_\n\n---\n\n<%= body %>"

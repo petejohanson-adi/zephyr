@@ -1,0 +1,23 @@
+/*
+ * Copyright 2026 NXP
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/adc/adc.h>
+#include <zephyr/dt-bindings/adc/mcux-lpadc.h>
+
+/ {
+	op_points {
+		compatible = "zephyr,op-points";
+
+		perf: perf {
+			p-states = <&pstate_1 &pstate_2>;
+			devices = <&flexcomm2_lpuart2>;
+		};
+
+		nom: nom {
+			p-states = <&pstate_1>;
+		};
+	};
+};

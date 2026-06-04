@@ -1,0 +1,40 @@
+# Copyright 2026 Analog Devices, Inc
+# SPDX-License-Identifier: Apache-2.0
+
+sample:
+  description: Operating Points sample
+  name: Operating Points Sample
+common:
+  tags:
+    - op_points
+    - pm
+  harness: console
+  harness_config:
+    type: multi_line
+    regex:
+      - "^Op-Points sample$"
+      - "^Setting op-point: nominal$"
+      - "^Setting op-point: performance$"
+      - "^Clearing op-point$"
+
+tests:
+  sample.op_points.op_points:
+    platform_allow:
+      - frdm_mcxn236
+    integration_platforms:
+      - frdm_mcxn236
+  sample.op_points.op_points_pm_device:
+    platform_allow:
+      - frdm_mcxn236
+    integration_platforms:
+      - frdm_mcxn236
+    extra_configs:
+      - CONFIG_PM_DEVICE=y
+  sample.op_points.op_points_pm_device_runtime:
+    platform_allow:
+      - frdm_mcxn236
+    integration_platforms:
+      - frdm_mcxn236
+    extra_configs:
+      - CONFIG_PM_DEVICE=y
+      - CONFIG_PM_DEVICE_RUNTIME=y

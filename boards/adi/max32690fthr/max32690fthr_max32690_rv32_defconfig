@@ -1,5 +1,8 @@
-# Copyright (c) 2023-2024 Analog Devices, Inc.
+# Copyright (c) 2026 Analog Devices, Inc.
 # SPDX-License-Identifier: Apache-2.0
+
+# Set supported clock accuracy
+CONFIG_SYS_CLOCK_TICKS_PER_SEC=5000
 
 # Enable GPIO
 CONFIG_GPIO=y
@@ -12,5 +15,4 @@ CONFIG_UART_CONSOLE=y
 CONFIG_SERIAL=y
 CONFIG_UART_INTERRUPT_DRIVEN=y
 
-# Ensure we use only the flash for our M4 core
 CONFIG_USE_DT_CODE_PARTITION=y

@@ -107,6 +107,22 @@ session. Here is an example for the :zephyr:code-sample:`hello_world` applicatio
    :board: max32690fthr/max32690/m4
    :goals: debug
 
+RV32 RISC-V Core
+================
+
+The secondary RV32 (RISC-V) core of the MAX32690 SoC is supported with the
+``max32690fthr/max32690/rv32`` board qualifiers. By default, that core uses the
+Feather TX/RX pins for its console. An example using sysbuild to build for both
+cores can be found in the :zephyr:code-sample:`sysbuild_hello_world` application.
+Currently, properly flashing to both cores requires using the ``jlink`` runner
+with a connected JLink programmer.
+
+.. zephyr-app-commands::
+   :zephyr-app: samples/sysbuild/hello_world
+   :board: max32690fthr/max32690/m4
+   :goals: build flash
+   :flash-args: --runner jlink
+
 References
 **********
 

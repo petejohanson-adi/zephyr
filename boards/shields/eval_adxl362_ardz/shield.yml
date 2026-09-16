@@ -4,3 +4,4 @@ shield:
   vendor: adi
   supported_features:
     - sensor
+    - display
